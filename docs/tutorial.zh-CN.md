@@ -21,7 +21,7 @@
 10. [项目合约：铸造、领取、预售、照抄](#10-项目合约铸造领取预售照抄)
 11. [新盘狙击](#11-新盘狙击)
 12. [设置、快捷键、自动转出](#12-设置快捷键自动转出)
-13. [常见问题](#13-常见问题)
+13. [常见问题](#13-常见问题)（完整版：[FAQ](FAQ.zh-CN.md)）
 14. [安全清单](#14-安全清单)
 
 ---
@@ -57,6 +57,7 @@ wsl --install
 
 ```bash
 # Node.js 20
+sudo apt update && sudo apt install -y curl
 curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
 sudo apt install -y nodejs git python3
 
@@ -68,7 +69,7 @@ curl -L https://foundry.paradigm.xyz | bash
 source ~/.bashrc && foundryup
 ```
 
-检查一下：
+装完 Foundry 后**开一个新的终端窗口**，再检查一下：
 
 ```bash
 python3 --version   # 3.10 以上
@@ -76,10 +77,13 @@ baw --version
 cast --version
 ```
 
+> macOS 用户：用 Homebrew 装 `brew install node git`，Python 3 和其他步骤一样。
+
 ### 币安账号
 
 - 在币安 App 的 Web3 钱包里开通 **AI 钱包（Agentic Wallet）**。
 - 机器人的**每个钱包对应一个币安账号**。只想用一个钱包的话，一个账号就够了。
+- 想买 Agent 专属盘的话，每个钱包还要领一个 **Agent ID**（第 9 节说明）。
 
 ## 3. 申请 Telegram 机器人
 
@@ -89,7 +93,10 @@ cast --version
 
 ## 4. 下载并设置
 
+Windows 用户请在 Ubuntu 窗口里执行（代码放在 Ubuntu 的家目录，不要放在 C 盘）：
+
 ```bash
+cd ~
 git clone https://github.com/Cryptozwm/agent-wallet-tg.git
 cd agent-wallet-tg
 mkdir -p ~/.config/agent-wallet-tg
@@ -124,18 +131,23 @@ BOT_LANG=zh
 ./run.sh
 ```
 
+看到 `bot running (Ctrl+C to stop)` 就是启动成功了，**这个窗口不要关**。
 `run.sh` 会让机器人一直运行，挂掉的话 10 秒后自动重开。日志在 `~/.config/agent-wallet-tg/bot.log`。
-想让它在后台跑，可以用 `nohup ./run.sh &`，或用 `tmux`、`screen`。
+
+- 看到 `TG_BOT_TOKEN is missing`：env 没放对位置或没填 token，回到第 4 步。
+- 看到 `warning: baw not found`：回到第 2 步装 baw。
+- 想让它在后台跑，可以用 `tmux`、`screen`，或 Windows 的开机自启（本节最后）。
 
 **拿到你的 Telegram ID：**
 
 1. 在 Telegram 打开你的机器人，随便发一句话。
 2. 它会回：「你的 Telegram ID 是 123456789。把它填进设置档的 TG_OWNER_ID…」
-3. 把这串数字填进 env：`TG_OWNER_ID=123456789`
-4. 重启机器人：
+3. 在 `run.sh` 的窗口按 `Ctrl+C` 停掉，把这串数字填进 env：`TG_OWNER_ID=123456789`
+4. 重新启动：
 
 ```bash
-pkill -f "python3 -u bot.py"    # run.sh 会在 10 秒后自动重开
+nano ~/.config/agent-wallet-tg/env   # 填好 TG_OWNER_ID，Ctrl+O 存档、Ctrl+X 离开
+./run.sh
 ```
 
 再发一次 `/start`，就会看到主菜单：
@@ -150,8 +162,14 @@ pkill -f "python3 -u bot.py"    # run.sh 会在 10 秒后自动重开
 🔁 别人成功的交易 hash → 照抄一笔
 ```
 
-**Windows 开机自动启动（可选）：** 在项目文件夹里，右键 `install-task.ps1` →「用 PowerShell 运行」。
-它会建立一个登录时自动在 WSL 里启动机器人的排程，不会跳出窗口。
+**Windows 开机自动启动（可选）：** 先在 Ubuntu 窗口按 `Ctrl+C` 停掉手动开的那个，然后在 Ubuntu 里执行：
+
+```bash
+cd ~/agent-wallet-tg && explorer.exe .
+```
+
+在打开的文件夹里，右键 `install-task.ps1` →「使用 PowerShell 运行」。
+它会建立一个登录 Windows 时自动在 WSL 里启动机器人的排程，不会跳出窗口。出现「拒绝访问」的话，看 [FAQ](FAQ.zh-CN.md#安装与启动)。
 
 ## 6. 连接 AI 钱包
 
@@ -226,8 +244,16 @@ pkill -f "python3 -u bot.py"    # run.sh 会在 10 秒后自动重开
 注意：
 
 - 内盘买卖走的是合约调用，**一定要先打开开发者模式**。
-- 有些盘只让持有 Agent ID 的钱包买，机器人会先检查，不符合会直接告诉你。
 - 毕业后机器人会自动改走 PancakeSwap。
+
+### Agent ID
+
+有些盘只让持有 **Agent ID**（币安 AI 钱包的 `.ai` 身份，链上是一个 NFT）的钱包买，例如 Four.meme 的 Agent 专属盘、Flap 的 Agent ID 门槛盘、Agent Curve。
+
+- **📊 钱包状态** 会显示每个钱包的 Agent ID，没有的会标「没有 Agent ID」。
+- 也可以在终端执行 `baw wallet agent-id` 查。
+- 领取入口在币安 App 的 AI 钱包里（以币安 App 为准）。
+- **每个钱包都要有自己的 Agent ID**。钱包 A 有、钱包 B 没有的话，B 照样买不了，机器人会在预览里标出来。
 
 ## 10. 项目合约：铸造、领取、预售、照抄
 
@@ -235,6 +261,9 @@ pkill -f "python3 -u bot.py"    # run.sh 会在 10 秒后自动重开
 
 贴一个不是代币的合约地址，机器人会读出合约能做的动作（铸造、领取、退款、质押…），每个动作变成一个按钮。
 按下去，它会一步一步问你要填什么，最后一样**先在链上模拟**，给你看会花多少、会拿到什么，你按 **✅ 确认送出** 才送。
+
+- **mint NFT** 也是这样做（限 BSC）。白名单盘通常要一串证明（proof）或后台签名，要你自己从项目网站拿到再填。
+- mint 到的 NFT 不会显示在机器人的持仓里，用钱包地址到 BscScan 查。
 
 ### 贴项目给 agent 的说明
 
@@ -281,8 +310,10 @@ pkill -f "python3 -u bot.py"    # run.sh 会在 10 秒后自动重开
 
 ## 13. 常见问题
 
+这里是最常见的几个，**完整 FAQ（安装、钱包、买卖、内盘、自动功能、更新与移除）看 [FAQ.zh-CN.md](FAQ.zh-CN.md)**。
+
 **机器人没反应？**
-看日志：`tail -50 ~/.config/agent-wallet-tg/bot.log`。确认 `run.sh` 有在跑、token 正确、`TG_OWNER_ID` 是你自己的 ID。
+看日志：`tail -50 ~/.config/agent-wallet-tg/bot.log` 和 `stdout.log`。确认 `run.sh` 有在跑、token 正确、`TG_OWNER_ID` 是你自己的 ID。
 
 **「登录过期」**
 按钱包状态里的 **🔑 重新登录**，在币安 App 确认一次。

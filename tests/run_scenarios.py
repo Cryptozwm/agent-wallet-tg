@@ -1014,7 +1014,7 @@ def guard_scenarios(k):
     bot.check_logins()
     second = SENT[start:]
     bot.check_logins()
-    check('钱包掉线：连续两次才私讯一次，附重新登录按钮', first == '' and text(second).count('钱包 B 掉线了') == 1
+    check('钱包掉线：连续两次才私信一次，附重新登录按钮', first == '' and text(second).count('钱包 B 掉线了') == 1
           and '🔑 重新登录 B' in panel_data(second) and text(SENT[start:]).count('掉线了') == 1, text(SENT[start:]))
     m = send('/status')
     check('钱包状态：没登录的钱包有「重新登录」按钮', '🔑 重新登录 B' in panel_data(m) and 'UNCONNECTED' in text(m), text(m))

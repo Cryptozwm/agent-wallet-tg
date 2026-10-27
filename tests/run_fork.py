@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Launch-curve trading against the real BSC contracts on a local anvil fork. Nothing is sent to BSC.
 
-Reuses the fakes of run_scenarios.py (baw, Telegram, clock); the wallet is a public Agent ID holder impersonated on
-the fork. Run from WSL:  python3 tests/run_fork.py
+Reuses the fakes of run_scenarios.py (baw, Telegram, clock); the wallet is an unused test address, impersonated and
+given an Agent ID on the fork. Run from WSL:  python3 tests/run_fork.py
 """
 
 import os
@@ -18,7 +18,9 @@ bot = rs.bot
 FORK_PORT = 8612
 FORK = f'http://127.0.0.1:{FORK_PORT}'
 UPSTREAM = os.environ.get('FORK_URL', 'https://bsc-dataseed.bnbchain.org')
-HOLDER = '0xdc71fb3b3240aa00c2f201f69d0f51f95f640b8a'  # a public wallet that holds an Agent ID, only impersonated
+# an address with no history on BSC (anvil's own dev accounts carry EIP-7702 code there and can't receive BNB)
+HOLDER = '0x7e57000000000000000000000000000000007e57'
+AGENT_BALANCE_SLOT = 3  # ERC721 _balances in the Agent ID registry
 TOKENS = {
     'four_agent': '0xd47d886b39363337c2048c6e829adba05e5fffff',
     'four': '0x5dfdbd1c2a3229ba56fdae40f2038d01cc1e4444',
@@ -83,6 +85,9 @@ def refork():
     rs.c('rpc', 'anvil_setCode', '0x0000F90827F1C53a10cb7A02335B175320002935', '0x')
     rs.c('rpc', 'anvil_impersonateAccount', HOLDER)
     rs.c('rpc', 'anvil_setBalance', HOLDER, hex(rs.ONE_BNB))
+    # agent-only curves check the registry's balanceOf, so give the test address one Agent ID on the fork
+    slot = rs.sh(rs.CAST, 'index', 'address', HOLDER, str(AGENT_BALANCE_SLOT))
+    rs.c('rpc', 'anvil_setStorageAt', bot.AGENT_ID_REGISTRY, slot, '0x' + '1'.rjust(64, '0'))
 
 
 def launch_v3():

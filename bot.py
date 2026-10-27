@@ -870,7 +870,7 @@ VERB_CN = {'buy': L('Buy', '买入'), 'sell': L('Sell', '卖出'), 'mint': L('Mi
            'join': L('Join', '加入'), 'enter': L('Enter', '进场'), 'register': L('Register', '登记'), 'fill': L('Fill', '占位'), 'reserve': L('Reserve', '预约'), 'commit': L('Commit', '认购'),
            'contribute': L('Commit', '认购'), 'participate': L('Participate', '参加'), 'exit': L('Exit', '退出'), 'collect': L('Claim', '领取'), 'lock': L('Lock', '锁仓'),
            'unlock': L('Unlock', '解锁'), 'bid': L('Bid', '出价'), 'reveal': L('Reveal', '揭晓'), 'open': L('Open', '打开'), 'settle': L('Settle', '结算'), 'approve': L('Approve', '授权'),
-           'transfer': L('Transfer', '转帐'), 'purchase': L('Purchase', '购买'), 'swap': L('Swap', '兑换'), 'cancel': L('Cancel', '取消'), 'add': L('Join', '加入'), 'remove': L('Remove', '移除')}
+           'transfer': L('Transfer', '转账'), 'purchase': L('Purchase', '购买'), 'swap': L('Swap', '兑换'), 'cancel': L('Cancel', '取消'), 'add': L('Join', '加入'), 'remove': L('Remove', '移除')}
 READ_CN = {'buylimit': L('You can still buy', '你还能买'), 'graduated': L('Graduated?', '毕业了吗'), 'maxperagent': L('Max per wallet', '每个钱包上限'), 'tokenssold': L('Tokens sold', '已卖出'),
            'boughtby': L('You bought', '你已买'), 'maxperwallet': L('Max per wallet', '每个钱包上限'), 'totalsupply': L('Total supply', '总量'), 'price': L('Price', '价格'),
            'starttime': L('Start time', '开始时间'), 'endtime': L('End time', '结束时间'), 'deadline': L('Deadline', '截止时间'), 'paused': L('Paused', '已暂停')}
@@ -2938,7 +2938,7 @@ def manual_send(token, ws):
         return
     lines = [L(f'📤 <b>Sweep preview | {esc(sym)}</b>', f'📤 <b>转出预览｜{esc(sym)}</b>'), L(f'To {esc(payout_name(to))}  <code>{to}</code>', f'转到 {esc(payout_name(to))}　<code>{to}</code>'), '']
     lines += [L(f'<b>{w}</b>  all {cn_num(Decimal(b) / Decimal(10) ** d)}', f'<b>{w}</b>　全部 {cn_num(Decimal(b) / Decimal(10) ** d)} 颗') for w, b in have.items()]
-    lines += ['', L('Sent via Binance wallet; add the destination to the Binance app address book first', '用币安钱包转帐；目的地要先加进币安 App 的地址簿')]
+    lines += ['', L('Sent via Binance wallet; add the destination to the Binance app address book first', '用币安钱包转账；目的地要先加进币安 App 的地址簿')]
 
     def go():
         for w, (ok, res) in zip(have, each(list(have), lambda w: send_all(w, token, to))):
@@ -4002,7 +4002,7 @@ def cmd_copy(args):
         t = t.get('data') or {}
     to, data, sender = t.get('to'), (t.get('input') or '0x').lower(), (t.get('from') or '').lower()
     if not to or len(data) < 10:
-        raise UsageError(L('This is a plain transfer or contract deployment; it cannot be copied.', '这笔是单纯转帐或部署合约，不能照抄。'))
+        raise UsageError(L('This is a plain transfer or contract deployment; it cannot be copied.', '这笔是单纯转账或部署合约，不能照抄。'))
     value = value_override if value_override is not None else int(str(t.get('value') or '0'), 0)
     if value > 0:
         need_amount(str(from_wei(value)))
@@ -4035,7 +4035,7 @@ def show_copy(tx):
         t = t.get('data') or {}
     to, data = t.get('to'), (t.get('input') or '0x').lower()
     if not to or len(data) < 10:
-        raise UsageError(L('This is a plain transfer or contract deployment; it cannot be copied.', '这笔是单纯转帐或部署合约，不能照抄。'))
+        raise UsageError(L('This is a plain transfer or contract deployment; it cannot be copied.', '这笔是单纯转账或部署合约，不能照抄。'))
     value = int(str(t.get('value') or '0'), 0)
     ok = receipt(tx)
     lines = [L("📋 <b>Another user's tx</b>", '📋 <b>别人的一笔交易</b>'),
