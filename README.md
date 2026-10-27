@@ -40,6 +40,11 @@ Automatic features (TP/SL, sniper, sweep) are **off until you turn them on**, an
 
 ## Quick start
 
+**Easiest:** give [INSTALL_WITH_AI.md](INSTALL_WITH_AI.md) to your AI assistant and ask it to install the bot with you
+step by step. It checks each step and knows the usual errors.
+
+Or by hand:
+
 ```bash
 git clone https://github.com/Cryptozwm/agent-wallet-tg.git
 cd agent-wallet-tg

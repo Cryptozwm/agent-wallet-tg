@@ -40,6 +40,11 @@
 
 ## 快速开始
 
+**最简单：** 把 [INSTALL_WITH_AI.md](INSTALL_WITH_AI.md) 发给你的 AI 助手，跟它说「一步一步帮我安装」。
+它会先问你用什么系统，每一步都帮你检查结果，常见的报错也知道怎么处理。
+
+自己动手的话：
+
 ```bash
 git clone https://github.com/Cryptozwm/agent-wallet-tg.git
 cd agent-wallet-tg
