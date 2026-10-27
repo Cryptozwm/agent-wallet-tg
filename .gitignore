@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+env
+wallets.json
+*.log
+tests/out/
+tests/cache/
