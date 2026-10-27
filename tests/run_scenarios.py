@@ -1267,6 +1267,18 @@ def main():
         except ValueError as e:
             shown = repr(e)
         check('预览：模拟变化量是科学记号（1.18e+24）也能显示', shown.startswith('BNB +'), shown)
+        # selling WBNB from its card: baw can't swap it, so it unwraps on the WBNB contract instead
+        calls = []
+        with patched(word=lambda *a: 4 * 10 ** 17, preview_calls=lambda title, c, **kw: calls.append(c)):
+            bot.cmd_sell([bot.WBNB, '50', 'A'])
+        half = bot.cast('calldata', 'withdraw(uint256)', str(2 * 10 ** 17))
+        check('WBNB 卡片卖出：改走换回 BNB、照比例', len(calls) == 1 and [(c[0], c[1], c[3]) for c in calls[0]]
+              == [('A', bot.WBNB, half)], str(calls)[:300])
+        start = len(SENT)
+        with patched(word=lambda *a: 0, preview_calls=lambda title, c, **kw: calls.append(c)):
+            bot.cmd_sell([bot.WBNB.lower(), '100', 'AB'])
+        check('WBNB 卡片卖出：没有 WBNB 就说没有、不出预览', len(calls) == 1 and '没有 WBNB' in text(SENT[start:]),
+              text(SENT[start:]))
         fail = lambda name, msg: {'success': False, 'error': {'name': name, 'message': msg}}  # noqa: E731
         expired = bot.baw_err(fail('SESSION_EXPIRED', 'Please log in first.'))
         check('错误中文：登录过期', '登录过期' in expired and 'Please' not in expired, expired)

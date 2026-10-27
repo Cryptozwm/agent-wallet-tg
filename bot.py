@@ -1137,6 +1137,13 @@ def cmd_sell(args):
     if pct > 100:
         raise UsageError(L('Percentage cannot exceed 100.', '百分比不能超过 100。'))
     ws = parse_wallets(args[2:], load_prefs()['wallets'])
+    if token.lower() == WBNB.lower():  # baw won't swap WBNB for BNB; unwrapping it is the same thing, 1:1
+        back = [(w, *x) for w in ws for x in unwrap_steps(w, pct)]
+        if back:
+            preview_calls(L('💱 WBNB → BNB', '💱 WBNB 换回 BNB'), back, intro=(L('WBNB and BNB are 1:1, so this unwraps straight from the WBNB contract instead of swapping through Binance.', 'WBNB 和 BNB 是 1:1，直接从 WBNB 合约换回，不经过币安换币。'),))
+        else:
+            say(L('No WBNB to swap.', '没有 WBNB 要换。'))
+        return
     cv = None if token.lower() in TRUSTED else detect_curve(token)
     if cv and cv['state'] == 'wait':
         say(L(f"⏳ {esc(curve_stage(cv))}{'' if cv.get('fair') else ', wait a few minutes before selling'}.\n<code>{token}</code>", f"⏳ {esc(curve_stage(cv))}{'' if cv.get('fair') else '，等几分钟再卖'}。\n<code>{token}</code>"), rich=True)
@@ -2614,8 +2621,10 @@ def curve_sell_steps(cv, token, w, pct):
              f'（最少 {fmt(from_wei(slip_min(out)))}）'))], True
 
 
-def unwrap_steps(w):
+def unwrap_steps(w, pct=100):
     bal = word(WBNB, 'balanceOf(address)', WALLETS[w]['addr']) or 0
+    if pct < 100:
+        bal = int(bal * dec(pct) / 100)
     return [(WBNB, 0, cast('calldata', 'withdraw(uint256)', str(bal)), L(f'Unwrap {fmt(from_wei(bal))} WBNB to BNB', f'把 {fmt(from_wei(bal))} WBNB 换回 BNB'))] \
         if bal else []
 
