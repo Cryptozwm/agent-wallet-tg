@@ -3,7 +3,7 @@
 用 Telegram 操作你的 **币安 AI 钱包（Binance Agentic Wallet）** 交易 BSC 代币：PancakeSwap 外盘，
 以及 Four.meme、Flap、gang.fun V1–V3、Agent Curve 内盘（毕业前直接跟曲线买卖）。底层走币安官方 `baw` 命令行工具。
 
-[English](README.md) · [完整教程（带图）](docs/tutorial.zh-CN.md)
+[English](README.md) · [完整教程（带图）](docs/tutorial.zh-CN.md) · [常见问题 FAQ](docs/FAQ.zh-CN.md)
 
 ![功能总览](docs/img/features.png)
 
@@ -58,7 +58,7 @@ cp env.example ~/.config/agent-wallet-tg/env && chmod 600 ~/.config/agent-wallet
 
 Windows 用户：在项目文件夹里执行 `install-task.ps1`，就能开机自动在后台启动机器人。
 
-每一步的截图和说明见 [完整教程](docs/tutorial.zh-CN.md)。
+每一步的截图和说明见 [完整教程](docs/tutorial.zh-CN.md)；卡住了先看 [常见问题](docs/FAQ.zh-CN.md)（安装报错、登录、Agent ID、买入被拒、更新与移除）。
 
 ## 设置
 

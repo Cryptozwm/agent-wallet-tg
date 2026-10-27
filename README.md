@@ -3,7 +3,7 @@
 A Telegram bot that trades BSC tokens from your **Binance Agentic Wallet(s)** — on PancakeSwap and directly on
 launchpad bonding curves (Four.meme, Flap, gang.fun V1–V3, Agent Curve) — through the official `baw` CLI.
 
-[简体中文说明](README.zh-CN.md) · [Step-by-step tutorial (简体中文)](docs/tutorial.zh-CN.md)
+[简体中文说明](README.zh-CN.md) · [Step-by-step tutorial (简体中文)](docs/tutorial.zh-CN.md) · [FAQ](docs/FAQ.md)
 
 - **No private keys.** The bot never sees a key or seed phrase. Every transaction is signed on Binance's side by `baw`.
 - **Preview, then confirm.** Every manual buy, sell, transfer or contract call is quoted or simulated first; nothing is
@@ -57,6 +57,8 @@ cp env.example ~/.config/agent-wallet-tg/env && chmod 600 ~/.config/agent-wallet
 5. Paste a token address. Tap a buy amount → check the preview → **✅ Confirm**.
 
 On Windows, run `install-task.ps1` from the repo folder to start the bot at logon without a window.
+
+Stuck? See the [FAQ](docs/FAQ.md): install errors, login, Agent ID, refused buys, updating and uninstalling.
 
 ## Configuration
 
