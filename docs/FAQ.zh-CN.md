@@ -27,8 +27,17 @@
 **别人知道我的机器人用户名，能用它吗？**
 不能。机器人只回应 env 里 `TG_OWNER_ID` 那个账号的私聊，其他人发什么都不理；群组里也不会回应。
 
+**Telegram 机器人怎么创建？**
+找官方 `@BotFather`（有蓝色认证勾，小心假冒），发 `/newbot`，取一个名字和一个以 `bot` 结尾的用户名，就会拿到 token。图文步骤见 [教程第 3 节](tutorial.zh-CN.md#3-创建-telegram-机器人)。
+
+**用户名一直显示已被占用？**
+全 Telegram 不能重复，而且必须以 `bot` 结尾。加几个数字最快，例如 `my_wallet_2024_bot`。
+
+**token 找不到了？**
+对 BotFather 发 `/mybots` → 选你的机器人 → **API Token**。
+
 **bot token 外泄了怎么办？**
-拿到 token 的人能冒充机器人，但下不了单（只认 `TG_OWNER_ID`）。还是要马上到 @BotFather 发 `/revoke` 换一个新 token，填回 env 后重启。
+拿到 token 的人能冒充机器人，但下不了单（只认 `TG_OWNER_ID`）。还是要马上换：对 BotFather 发 `/mybots` → 选机器人 → **API Token** → **Revoke current token**，把新 token 填回 env 后重启。
 
 **支持哪些链？**
 只支持 BSC（BNB Chain）。
@@ -44,7 +53,7 @@
 能，要先装 WSL2（教程第 2 节），所有命令在 Ubuntu 窗口里执行。代码请 clone 在 Ubuntu 里（例如 `~/agent-wallet-tg`），不要放在 Windows 的 C 盘再从 WSL 去读。
 
 **macOS 能用吗？**
-能。用 Homebrew 装 Node.js 和 git（`brew install node git`），其他步骤一样。macOS 没有开机自启脚本，可以用 `tmux` 或 `screen` 让它在后台跑。
+能。用 Homebrew 装（`brew install node git python`），其他步骤一样。macOS 自带的 Python 可能是 3.9，太旧。macOS 没有开机自启脚本，可以用 `tmux` 或 `screen` 让它在后台跑。
 
 **`./run.sh` 显示 `Permission denied`？**
 执行一次 `chmod +x run.sh`，或改用 `bash run.sh`。

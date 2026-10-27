@@ -122,12 +122,19 @@ Expected: Python **3.10 or newer**, Node **18 or newer**, and a version number f
 
 ## Step 4 — Create the Telegram bot
 
-Guide the user in the Telegram app:
+Guide the user in the Telegram app (phone or desktop), one sub-step at a time. Free, about 2 minutes.
 
-1. Search **@BotFather**, open it, send `/newbot`.
-2. Give it a display name, then a username that ends in `bot` (e.g. `my_wallet_123_bot`).
-3. BotFather replies with a token like `1234567890:AAH...`. **Tell the user to keep it private and NOT paste it here.**
-   They will type it into a file in Step 6.
+1. **Find the official BotFather.** Search `BotFather` or open https://t.me/BotFather. The username must be exactly
+   `@BotFather` with a **blue verified check**. Many fakes exist (`BotFather_bot`…); never use them.
+2. Tap **Start**, then send `/newbot`.
+3. *"How are we going to call it?"* → any display name (e.g. `My Wallet`). Can be changed later.
+4. *"choose a username"* → letters, digits and `_` only, **must end in `bot`** (e.g. `my_wallet_2024_bot`), unique
+   across Telegram. On *"already taken"*, add a few digits and try again.
+5. *"Done! Congratulations..."* contains the bot link `t.me/<username>` (used in Step 7) and, under
+   *"Use this token to access the HTTP API:"*, a token like `1234567890:AAH...` (tap it to copy).
+6. **Tell the user to keep the token private and NOT paste it here.** They will type it into a file in Step 6.
+
+Lost token: `/mybots` to BotFather → the bot → **API Token**. Leaked: same place → **Revoke current token**.
 
 ## Step 5 — Download the bot
 

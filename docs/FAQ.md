@@ -26,8 +26,16 @@ No. Keys stay in the Binance Agentic Wallet. The bot only calls Binance's offici
 **Someone knows my bot's username. Can they use it?**
 No. The bot only answers private messages from `TG_OWNER_ID` and ignores everyone else, including groups.
 
+**How do I create the Telegram bot?**
+Open the official `@BotFather` (blue verified check; beware of fakes), send `/newbot`, pick a name and a username ending
+in `bot`. It replies with the token. The username must be unique; add digits if it is taken.
+
+**I lost the token.**
+Send `/mybots` to BotFather → your bot → **API Token**.
+
 **My bot token leaked.**
-Whoever has it can impersonate the bot but cannot give it orders. Still, send `/revoke` to @BotFather, put the new token in the env file and restart.
+Whoever has it can impersonate the bot but cannot give it orders. Still, replace it: `/mybots` → your bot →
+**API Token** → **Revoke current token**, put the new token in the env file and restart.
 
 **Which chains?**
 BSC (BNB Chain) only.
@@ -43,7 +51,7 @@ The bot runs on your machine and stops when it sleeps or shuts down.
 Yes, with WSL2. Clone the repo inside Ubuntu (e.g. `~/agent-wallet-tg`), not on the C: drive.
 
 **macOS?**
-Yes. `brew install node git`, everything else is the same. There is no autostart script; use `tmux` or `screen`.
+Yes. `brew install node git python` (the system Python may be 3.9, too old), everything else is the same. There is no autostart script; use `tmux` or `screen`.
 
 **`./run.sh: Permission denied`**
 Run `chmod +x run.sh` once, or start it with `bash run.sh`.
